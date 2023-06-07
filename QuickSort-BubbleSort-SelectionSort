@@ -1,0 +1,85 @@
+# 快速排序
+import datetime
+import random
+
+
+# arr为待排序数组，reverse为排序方式，True为降序，False为升序
+def quick_sort(arr, reverse):
+    # 只有一个数据，返回
+    if len(arr) < 2:
+        return arr
+    left = []  # 左子序列
+    right = []  # 右子序列
+    # 选取基准值
+    pivot = arr[0]
+    if reverse:
+        # 递减序列
+        for i in arr[1:]:
+            if i >= pivot:
+                left.append(i)
+            else:
+                right.append(i)
+    else:
+        # 递增序列
+        for i in arr[1:]:
+            if i <= pivot:
+                left.append(i)
+            else:
+                right.append(i)
+    arr = quick_sort(left, reverse)
+    arr.append(pivot)
+    arr.extend(quick_sort(right, reverse))
+    return arr
+
+
+# 冒泡排序
+def bubble_sort(arr, reverse=False):
+    n = len(arr)
+    for i in range(n):
+        for j in range(n - i - 1):
+            if reverse:
+                if arr[j] < arr[j + 1]:
+                    arr[j], arr[j + 1] = arr[j + 1], arr[j]
+            else:
+                if arr[j] > arr[j + 1]:
+                    arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return arr
+
+
+# 选择排序
+def selection_sort(arr, reverse=False):
+    n = len(arr)
+    for i in range(n):
+        min_idx = i
+        for j in range(i + 1, n):
+            if reverse:
+                if arr[j] > arr[min_idx]:
+                    min_idx = j
+            else:
+                if arr[j] < arr[min_idx]:
+                    min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    return arr
+
+
+while True:
+    direction = input("请输入排序方式: 升序(asc)或降序(desc)\n")
+    if (direction == "asc"):
+        reverse = False
+        break
+    elif (direction == "desc"):
+        reverse = True
+        break
+    else:
+        print("输入错误, 请重新输入")
+
+sumtime = 0
+start = datetime.datetime.now().microsecond
+for j in range(10):
+    for i in range(1000):
+        arr = [random.randint(0, 100) for _ in range(i)]
+        quick_sort(arr, reverse)
+        # bubble_sort(arr, reverse)
+        # selection_sort(arr, reverse)
+end = datetime.datetime.now().microsecond
+print(f"平均耗时: {start - end}微秒")
