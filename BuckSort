@@ -11,7 +11,7 @@ def selection_sort(arr):
 
 
 # 桶排序
-def buck_sort(arr, reverse, bucknum):
+def buck_sort(arr, bucknum):
     max_val = max(arr)
     min_val = min(arr)
     buck = [[min + ((max_val - min_val) // bucknum) * i] for i in range(bucknum)]
